@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  
+  db:
+    image: postgres:alpine
+    restart: "no"
+    env_file: .env
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+
+  api:
+    image: paxlife-cc:latest
+    restart: "no"
+    env_file: .env
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    volumes:
+      - ./api:/api
+    ports:
+      - "5000:5000"
